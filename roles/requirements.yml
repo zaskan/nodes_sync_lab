@@ -1,1 +1,2 @@
-- src: https://github.com/zaskan/test_role.git
+roles:
+  - src: https://github.com/zaskan/test_role.git
