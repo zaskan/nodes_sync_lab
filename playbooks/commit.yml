@@ -15,7 +15,7 @@
       vars:
         git_operation: "clone"
         git_repository: "git@github.com:zaskan/test_role.git"
-        git_directory: "/tmp"
+        git_directory: "/tmp/test_role"
         git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
 
     - name: Perform a change in the code
