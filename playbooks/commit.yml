@@ -7,7 +7,7 @@
         timestamp: "{{ ansible_date_time.date }}"
 
     - name: Download Git Repository
-      ansible-builtin.include_role:
+      ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
       vars:
         git_operation: clone
@@ -21,7 +21,7 @@
         line: '      fact: "{{ timestamp }}"'
       
     - name: Push Changes
-      ansible-builtin.include_role:
+      ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
       vars:
         git_operation: "push"
@@ -30,5 +30,3 @@
         git_message: "{{ timestamp }}"
         git_email: "rafsanch@redhat.com"
         gituser: "rafsanch"
-
-

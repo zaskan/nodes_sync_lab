@@ -4,7 +4,7 @@
   tasks:
 
     - name: Execute Role
-      ansible-builtin.include_role:
+      ansible.builtin.include_role:
         name: test_role
       register: role_output
 
