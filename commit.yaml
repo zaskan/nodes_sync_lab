@@ -1,0 +1,34 @@
+---
+- name: Perform a change in the repository
+  gather_facts: true
+  tasks:
+    - name: Get the Timestamp
+      ansible.builtin.set_fact:
+        timestamp: "{{ ansible_date_time.date }}"
+
+    - name: Download Git Repository
+      ansible-builtin.include_role:
+        name: ansible_automation_platform.zaskan.git
+      vars:
+        git_operation: clone
+        git_repository: "git@github.com:zaskan/test_role.git"
+        git_directory: "/tmp"
+
+    - name: Perform a change in the code
+      ansible.builtin.line_in_file:
+        path: /tmp/test_role/tasks/main.yml
+        regexp: '^      fact: "'
+        line: '      fact: "{{ timestamp }}"'
+      
+    - name: Push Changes
+      ansible-builtin.include_role:
+        name: ansible_automation_platform.zaskan.git
+      vars:
+        git_operation: "push"
+        git_repository: "git@github.com:zaskan/test_role.git"
+        git_directory: "/tmp/test_role"
+        git_message: "{{ timestamp }}"
+        git_email: "rafsanch@redhat.com"
+        gituser: "rafsanch"
+
+
