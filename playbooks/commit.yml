@@ -7,6 +7,8 @@
       ansible.builtin.set_fact:
         timestamp: "{{ ansible_date_time.date }}"
 
+    - debug: msg="{{ lookup('ansible.builtin.file', lookup('env', 'ANSIBLE_PRIVATE_KEY_FILE')) }}"
+
     - name: Download Git Repository
       ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
@@ -14,7 +16,7 @@
         git_operation: "clone"
         git_repository: "git@github.com:zaskan/test_role.git"
         git_directory: "/tmp"
-        git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
+        git_key_path: "{{ lookup('env', 'ANSIBLE_PRIVATE_KEY_FILE') }}"
 
     - name: Perform a change in the code
       ansible.builtin.lineinfile:
