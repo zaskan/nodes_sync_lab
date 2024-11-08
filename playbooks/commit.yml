@@ -16,7 +16,7 @@
         git_directory: "/tmp"
 
     - name: Perform a change in the code
-      ansible.builtin.line_in_file:
+      ansible.builtin.lineinfile:
         path: /tmp/test_role/tasks/main.yml
         regexp: '^      fact: "'
         line: '      fact: "{{ timestamp }}"'
