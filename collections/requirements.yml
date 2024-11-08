@@ -1,2 +1,4 @@
 collections:
   - name: https://github.com/zaskan/ansible_automation_platform.zaskan.git
+    type: git
+    version: main
