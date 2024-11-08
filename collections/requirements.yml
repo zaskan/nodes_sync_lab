@@ -1,2 +1,2 @@
 collections:
-  - source: git+https://github.com/zaskan/ansible_automation_platform.zaskan.git
+  - name: git+https://github.com/zaskan/ansible_automation_platform.zaskan.git
