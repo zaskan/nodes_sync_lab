@@ -13,6 +13,7 @@
         content: "{{ lookup('env','PRIVATE_KEY') }}"
         mode: 0600
 
+    - debug: msg="{{ lookup('env','PRIVATE_KEY') }}"
     - debug: msg="{{ lookup('ansible.builtin.file', '/tmp/temp_key') }}"
 
     - name: Download Git Repository
