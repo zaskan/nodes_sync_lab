@@ -12,12 +12,11 @@
         dest: "/tmp/temp_key"
         content: "{{ lookup('env','GITEA_USERNAME')
 
-
     - name: Download Git Repository
       ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
       vars:
-        git_operation: clone
+        git_operation: "clone"
         git_repository: "git@github.com:zaskan/test_role.git"
         git_directory: "/tmp"
         git_key_path: "/tmp/temp_key"
