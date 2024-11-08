@@ -11,6 +11,7 @@
       ansible.builtin.copy:
         dest: "/tmp/temp_key"
         content: "{{ lookup('env','PRIVATE_KEY') }}"
+        mode: 0600
 
     - name: Download Git Repository
       ansible.builtin.include_role:
