@@ -1,6 +1,7 @@
 ---
 - name: Perform a change in the repository
   gather_facts: true
+  hosts: localhost
   tasks:
     - name: Get the Timestamp
       ansible.builtin.set_fact:
