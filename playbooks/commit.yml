@@ -10,7 +10,7 @@
     - name: Create Keyfile
       ansible.builtin.copy:
         dest: "/tmp/temp_key"
-        content: "{{ lookup('env','GITEA_USERNAME') }}"
+        content: "{{ lookup('env','PRIVATE_KEY') }}"
 
     - name: Download Git Repository
       ansible.builtin.include_role:
