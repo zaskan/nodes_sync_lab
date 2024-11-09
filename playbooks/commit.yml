@@ -46,7 +46,7 @@
           timestamp: "{{ timestamp }}"
 
     - name: Save Job Environment
-      ansible.builtin.command: 'env | grep JOB_ID | cut -d"=" -f2'
+      ansible.builtin.command: 'env'
       changed_when: sync_job_id.rc == 0
       register: sync_job_id
 
