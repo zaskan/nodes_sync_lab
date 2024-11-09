@@ -4,8 +4,7 @@
   hosts: localhost
   tasks:
     - name: Generate a unique job UUID
-      ansible.builtin.set_fact:
-        uuid_output: 'openssl rand -base64 12'
+      ansible.builtin.command: 'openssl rand -base64 12'
       register: uuid_output
 
     - name: Set job_uuid
