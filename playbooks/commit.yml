@@ -33,3 +33,8 @@
         git_email: "rafsanch@redhat.com"
         git_user: "rafsanch"
         git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
+
+    - name: Set the Timestamp
+      ansible.builtin.set_stats:
+        data:
+          timestamp: "{{ timestamp }}"
