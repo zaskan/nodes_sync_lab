@@ -27,7 +27,7 @@
     - name: Perform a change in the code
       ansible.builtin.lineinfile:
         path: /tmp/test_role/tasks/main.yml
-        regexp: '*fact: "'
+        regexp: 'fact: .(.*)'
         line: "      {{ job_uuid }}_fact: {{ timestamp }}"
 
     - name: Push Changes
