@@ -9,7 +9,7 @@
 
     - name: Set job_uuid
       ansible.builtin.set_fact:
-        job_uuid: "{{ uuid_output.stdout.strip() }}"
+        job_uuid: "{{ uuid_output.stdout }}"
 
     - name: Get the Timestamp
       ansible.builtin.set_fact:
