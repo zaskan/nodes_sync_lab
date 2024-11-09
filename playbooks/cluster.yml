@@ -9,7 +9,6 @@
     - name: Extract JOB_ID value using job_uuid prefix
       ansible.builtin.set_fact:
         job_id: "{{ hostvars.localhost[job_uuid + '_sync_job_id'] | regex_search('JOB_ID=([0-9]+)', '\\1') }}"
-      when: hostvars.localhost[job_uuid + '_sync_job_id'] is defined
 
     - name: Extract Sync Job Environment Controller node
       ansible.builtin.set_fact:
