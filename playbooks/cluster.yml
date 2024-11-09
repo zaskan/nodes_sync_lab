@@ -1,0 +1,14 @@
+---
+- name: Change Cluster nodes
+  gather_facts: true
+  hosts: localhost
+  tasks:
+    - name: Extract JOB_ID value
+      ansible.builtin.set_fact:
+        job_id: "{{ sync_job_id | regex_search('JOB_ID=([0-9]+)', '\\1') }}"
+
+    - name: Extract Sync Job Environment Controller node
+      ansible.builtin.set_fact:
+        sync_controller_node: "{{ lookup('awx.awx.controller_api', 'jobs/{{ job_id }}/') }}"
+
+    - debug: msg="{{ sync_controller_node }}"
