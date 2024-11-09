@@ -9,9 +9,13 @@
       register: test_role_role_output
 
     - name: Get results
+      ansible.builtin.set_fact:
+          execution_timestamp: "{{ test_role_role_output }}"
+
+    - name: Get results
       ansible.builtin.set_stats:
         data:
-          execution_timestamp: "{{ test_role_role_output }}"
+          execution_timestamp: "{{ execution_timestamp }}"
 
     - name: Check Output
       ansible.builtin.debug:
