@@ -1,0 +1,8 @@
+---
+- name: Check Results
+  gather_facts: true
+  hosts: localhost
+  tasks:
+    - name: Check Output
+      ansible.builtin.debug:
+        msg: "{{ timestamp }} {{ execution_timestamp }}"
