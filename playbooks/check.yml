@@ -3,6 +3,11 @@
   gather_facts: true
   hosts: localhost
   tasks:
+
+    - name: Show Output
+      ansible.builtin.debug:
+        msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
+
     - name: Show Output
       ansible.builtin.fail:
         msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
