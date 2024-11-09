@@ -8,7 +8,9 @@
         name: test_role
       register: test_role_role_output
 
-    - name: Get results
+    - debug: msg="{{ test_role_role_output }}"
+
+    - name: Set results fact
       ansible.builtin.set_fact:
         execution_timestamp: "{{ test_role_role_output }}"
 
