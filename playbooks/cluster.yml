@@ -9,6 +9,59 @@
 
     - name: Extract Sync Job Environment Controller node
       ansible.builtin.set_fact:
-        sync_controller_node: "{{ lookup('ansible.controller.controller_api', 'jobs/{{ job_id[0] }}/') }}"
+        sync_data: "{{ lookup('ansible.controller.controller_api', 'jobs/{{ job_id[0] }}/') }}"
 
-    - debug: msg="{{ sync_controller_node.controller_node }}"
+    - name: Extract controller node
+      ansible.builtin.set_fact:
+        controller_node: "{{ sync_data.controller_node }}"
+
+    - name: Extract execution node
+      ansible.builtin.set_fact:
+        execution_node: "{{ sync_data.execution_node }}"
+
+    - name: Get controller nodes
+      ansible.builtin.uri:
+        url: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}/api/v2/instances/?node_type=control"
+        user: "{{ lookup('ansible.builtin.env', 'CONTROLLER_USERNAME') }}"
+        password: "{{ lookup('ansible.builtin.env', 'CONTROLLER_PASSWORD') }}"
+        method: GET
+        force_basic_auth: true
+        status_code: 200
+        body_format: json
+        validate_certs: false
+      register: controller_nodes
+
+    - name: Get execution nodes
+      ansible.builtin.uri:
+        url: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}/api/v2/instances/?node_type=execution"
+        user: "{{ lookup('ansible.builtin.env', 'CONTROLLER_USERNAME') }}"
+        password: "{{ lookup('ansible.builtin.env', 'CONTROLLER_PASSWORD') }}"
+        method: GET
+        force_basic_auth: true
+        status_code: 200
+        body_format: json
+        validate_certs: false
+      register: execution_nodes
+
+    - name: Enable control nodes
+      ansible.controller.instance:
+        hostname: "{{ item.hostname }}"
+        enabled: true
+        validate_certs: false
+      loop: "{{ controller_nodes.json.results }}"
+
+    - name: Enable execution nodes
+      ansible.controller.instance:
+        hostname: "{{ item.hostname }}"
+        enabled: true
+        validate_certs: false
+      loop: "{{ execution_nodes.json.results }}"
+
+    - name: Disable Instances
+      ansible.controller.instance:
+        hostname: "{{ item.hostname }}"
+        enabled: false
+        validate_certs: false
+      loop: 
+        - "{{ controller_node }}"
+        - "{{ execution_node }}"

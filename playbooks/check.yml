@@ -3,6 +3,12 @@
   gather_facts: true
   hosts: localhost
   tasks:
-    - name: Check Output
-      ansible.builtin.debug:
-        msg: "{{ timestamp }} {{ execution_timestamp }}"
+    - name: Show Output
+      ansible.builtin.fail:
+        msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
+      when: timestamp != execution_timestamp
+
+    - name: Project Sync
+      ansible.controller.workflow_launch:
+        workflow_template: "HSBC_Reproducer"
+        validate_certs: false
