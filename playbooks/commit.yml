@@ -36,7 +36,7 @@
 
     - name: "Project Sync"
       ansible.controller.project_update:
-        project: "{{ project_name }}"
+        project: "nodes_sync_lab"
         wait: true
         validate_certs: false
 
