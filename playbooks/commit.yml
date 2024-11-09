@@ -28,7 +28,7 @@
       ansible.builtin.lineinfile:
         path: /tmp/test_role/tasks/main.yml
         regexp: 'fact: "'
-        line: '      "{{ job_uuid }}_fact: "{{ timestamp }}"'
+        line: "      {{ job_uuid }}_fact: {{ timestamp }}"
     
     - name: Push Changes
       ansible.builtin.include_role:
