@@ -9,7 +9,7 @@
 
     - name: Set job_uuid
       ansible.builtin.set_fact:
-        job_uuid: "{{ uuid_output.stdout }}"
+        job_uuid: "x{{ uuid_output.stdout }}"
 
     - name: Get the Timestamp
       ansible.builtin.set_fact:
@@ -27,7 +27,7 @@
     - name: Perform a change in the code
       ansible.builtin.lineinfile:
         path: /tmp/test_role/tasks/main.yml
-        regexp: 'fact: "'
+        regexp: '*fact: "'
         line: "      {{ job_uuid }}_fact: {{ timestamp }}"
 
     - name: Push Changes
