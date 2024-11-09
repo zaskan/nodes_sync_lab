@@ -4,8 +4,8 @@
   hosts: localhost
   tasks:
     - name: Generate a unique job UUID
-      ansible.builtin.command: 'uuidgen | sed "s/-//g"'
-      register: uuid_output
+      ansible.builtin.set_fact:
+        uuid_output: "{{ lookup('community.general.random_string') }}"
 
     - name: Set job_uuid
       ansible.builtin.set_fact:
