@@ -3,9 +3,7 @@
   gather_facts: true
   hosts: localhost
   tasks:
-    - name: Execute Role with job_uuid
+    - name: Execute Role
       ansible.builtin.include_role:
         name: test_role
-      vars:
-        job_uuid: "{{ job_uuid }}"
       register: test_role_role_output

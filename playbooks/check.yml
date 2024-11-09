@@ -6,17 +6,15 @@
 
     - name: Show Output
       ansible.builtin.debug:
-        msg: "Real:{{ hostvars.localhost['{{ job_uuid }}_timestamp' ] }} Execution:{{ hostvars.localhost['{{ job_uuid }}_execution_timestamp' ] }}"
+        msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
 
-    - name: Show Output and Fail if Timestamps Do Not Match
+    - name: Show Output
       ansible.builtin.fail:
-        msg: "Real:{{ hostvars.localhost['{{ job_uuid }}_timestamp' ] }} Execution:{{ hostvars.localhost['{{ job_uuid }}_execution_timestamp' ] }}"
-      when: hostvars.localhost['{{ job_uuid }}_timestamp' ] != hostvars.localhost['{{ job_uuid }}_execution_timestamp' ]
+        msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
+      when: timestamp != execution_timestamp
 
-    - name: Relaunch Job with job_uuid
+    - name: Relaunch Job
       ansible.controller.workflow_launch:
         workflow_template: "HSBC_Reproducer"
         validate_certs: false
-        extra_vars:
-          job_uuid: "{{ job_uuid }}"
         wait: false

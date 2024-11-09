@@ -3,14 +3,6 @@
   gather_facts: true
   hosts: localhost
   tasks:
-    - name: Generate a unique job UUID
-      ansible.builtin.command: 'openssl rand -hex 12'
-      register: uuid_output
-
-    - name: Set job_uuid
-      ansible.builtin.set_fact:
-        job_uuid: "x{{ uuid_output.stdout }}"
-
     - name: Get the Timestamp
       ansible.builtin.set_fact:
         timestamp: "{{ ansible_date_time.iso8601_basic }}"
@@ -27,8 +19,8 @@
     - name: Perform a change in the code
       ansible.builtin.lineinfile:
         path: /tmp/test_role/tasks/main.yml
-        regexp: 'fact: .(.*)'
-        line: "      {{ job_uuid }}_fact: {{ timestamp }}"
+        regexp: '^      fact: "'
+        line: '      fact: "{{ timestamp }}"'
 
     - name: Push Changes
       ansible.builtin.include_role:
@@ -48,17 +40,17 @@
         wait: true
         validate_certs: false
 
-    - name: Set the Timestamp with job_uuid prefix
+    - name: Set the Timestamp
       ansible.builtin.set_stats:
         data:
-          "{{ job_uuid }}_timestamp": "{{ timestamp }}"
+          timestamp: "{{ timestamp }}"
 
     - name: Save Job Environment
       ansible.builtin.command: 'env'
       changed_when: sync_job_id.rc == 0
       register: sync_job_id
 
-    - name: Set the Sync Job ID with job_uuid prefix
+    - name: Set the Timestamp
       ansible.builtin.set_stats:
         data:
-          "{{ job_uuid }}_sync_job_id": "{{ sync_job_id }}"
+          sync_job_id: "{{ sync_job_id }}"
