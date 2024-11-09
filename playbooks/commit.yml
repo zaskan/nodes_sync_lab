@@ -33,4 +33,5 @@
         git_directory: "/tmp/test_role"
         git_message: "{{ timestamp }}"
         git_email: "rafsanch@redhat.com"
-        gituser: "rafsanch"
+        git_user: "rafsanch"
+        git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
