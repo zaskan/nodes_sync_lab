@@ -40,15 +40,15 @@
         wait: true
         validate_certs: false
 
+    - name: Set the Timestamp
+      ansible.builtin.set_stats:
+        data:
+          timestamp: "{{ timestamp }}"
+
     - name: Save Job Environment
       ansible.builtin.command: 'env'
       changed_when: sync_job_id.rc == 0
       register: sync_job_id
-
-    - name: Set the Timestamp
-      ansible.builtin.set_stats:
-        data:
-          "{{ sync_job_id | regex_search('JOB_ID=([0-9]+)', '\\1') }}_timestamp": "{{ timestamp }}"
 
     - name: Set the Timestamp
       ansible.builtin.set_stats:

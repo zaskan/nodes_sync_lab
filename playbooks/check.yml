@@ -6,12 +6,12 @@
 
     - name: Show Output
       ansible.builtin.debug:
-        msg: "Real:{{ lookup('vars', sync_job_id + '_timestamp') }} Execution: {{ lookup('vars', sync_job_id + '_execution_timestamp') }}"
+        msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
 
     - name: Show Output
       ansible.builtin.fail:
-        msg: "Real:{{ lookup('vars', sync_job_id + '_timestamp') }} Execution:{{ lookup('vars', sync_job_id + '_execution_timestamp') }}"
-      when: lookup('vars', sync_job_id + '_timestamp') != lookup('vars', sync_job_id + '_execution_timestamp')
+        msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
+      when: timestamp != execution_timestamp
 
     - name: Relaunch Job
       ansible.controller.workflow_launch:
