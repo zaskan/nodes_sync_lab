@@ -3,13 +3,11 @@
   gather_facts: true
   hosts: localhost
   tasks:
-
     - name: Execute Role
       ansible.builtin.include_role:
         name: test_role
-      register: test_role.role_output
+      register: test_role_role_output
 
     - name: Check Output
       ansible.builtin.debug:
-        msg: "{{ test_role.role_output }}"
-
+        msg: "{{ test_role_role_output }}"
