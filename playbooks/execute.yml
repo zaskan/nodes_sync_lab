@@ -11,8 +11,8 @@
     - name: Get results
       ansible.builtin.set_stats:
         data:
-          executiuon_timestamp: "{{ test_role_role_output }}"
-          
+          execution_timestamp: "{{ test_role_role_output }}"
+
     - name: Check Output
       ansible.builtin.debug:
-        msg: "{{ test_role_role_output }}"
+        msg: "{{ test_role_role_output }} {{ timestamp }} {{ execution_timestamp }}"
