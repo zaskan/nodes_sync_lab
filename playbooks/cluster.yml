@@ -9,6 +9,6 @@
 
     - name: Extract Sync Job Environment Controller node
       ansible.builtin.set_fact:
-        sync_controller_node: "{{ lookup('awx.awx.controller_api', 'jobs/{{ job_id }}/') }}"
+        sync_controller_node: "{{ lookup('ansible.controller.controller__api', 'jobs/{{ job_id }}/') }}"
 
     - debug: msg="{{ sync_controller_node }}"
