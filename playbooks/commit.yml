@@ -5,9 +5,7 @@
   tasks:
     - name: Get the Timestamp
       ansible.builtin.set_fact:
-        timestamp: "{{ ansible_date_time.date }}"
-
-    - debug: msg="{{ lookup('ansible.builtin.file', lookup('env', 'PRIVATE_KEY')) }}"
+        timestamp: "{{ ansible_date_time.iso8601 }}"
 
     - name: Download Git Repository
       ansible.builtin.include_role:
@@ -23,7 +21,7 @@
         path: /tmp/test_role/tasks/main.yml
         regexp: '^      fact: "'
         line: '      fact: "{{ timestamp }}"'
-      
+
     - name: Push Changes
       ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
