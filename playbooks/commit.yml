@@ -5,7 +5,7 @@
   tasks:
     - name: Get the Timestamp
       ansible.builtin.set_fact:
-        timestamp: "{{ ansible_date_time.iso8601 }}"
+        timestamp: "{{ ansible_date_time.iso8601_basic }}"
 
     - name: Download Git Repository
       ansible.builtin.include_role:
