@@ -13,7 +13,8 @@
         msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
       when: timestamp != execution_timestamp
 
-    - name: Project Sync
+    - name: Relaunch Job
       ansible.controller.workflow_launch:
         workflow_template: "HSBC_Reproducer"
         validate_certs: false
+        wait: False
