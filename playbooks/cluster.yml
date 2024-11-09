@@ -59,7 +59,7 @@
 
     - name: Disable Instances
       ansible.controller.instance:
-        hostname: "{{ item.hostname }}"
+        hostname: "{{ item }}"
         enabled: false
         validate_certs: false
       loop: 
