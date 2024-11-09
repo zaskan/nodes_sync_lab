@@ -6,8 +6,3 @@
     - name: Check Output
       ansible.builtin.debug:
         msg: "{{ timestamp }} {{ execution_timestamp }}"
-
-    - command: env
-      register: command
-
-    - debug: msg="{{ command }}"
