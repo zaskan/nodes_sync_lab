@@ -3,22 +3,22 @@
   gather_facts: true
   hosts: localhost
   tasks:
-    - name: Extract JOB_ID value
+    - name: Extract JOB_ID value using job_uuid prefix
       ansible.builtin.set_fact:
-        job_id: "{{ sync_job_id | regex_search('JOB_ID=([0-9]+)', '\\1') }}"
-
+        job_id: "{{ hostvars.localhost['{{ job_uuid }}_sync_job_id'] | regex_search('JOB_ID=([0-9]+)', '\\1') }}"
+    
     - name: Extract Sync Job Environment Controller node
       ansible.builtin.set_fact:
         sync_data: "{{ lookup('ansible.controller.controller_api', 'jobs/{{ job_id[0] }}/') }}"
-
-    - name: Extract controller node
+    
+    - name: Extract controller node with job_uuid prefix
       ansible.builtin.set_fact:
-        controller_node: "{{ sync_data.controller_node }}"
-
-    - name: Extract execution node
+        "{{ job_uuid }}_controller_node": "{{ sync_data.controller_node }}"
+    
+    - name: Extract execution node with job_uuid prefix
       ansible.builtin.set_fact:
-        execution_node: "{{ sync_data.execution_node }}"
-
+        "{{ job_uuid }}_execution_node": "{{ sync_data.execution_node }}"
+    
     - name: Get controller nodes
       ansible.builtin.uri:
         url: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}/api/v2/instances/?node_type=control"
@@ -30,7 +30,7 @@
         body_format: json
         validate_certs: false
       register: controller_nodes
-
+    
     - name: Get execution nodes
       ansible.builtin.uri:
         url: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}/api/v2/instances/?node_type=execution"
@@ -42,26 +42,26 @@
         body_format: json
         validate_certs: false
       register: execution_nodes
-
+    
     - name: Enable control nodes
       ansible.controller.instance:
         hostname: "{{ item.hostname }}"
         enabled: true
         validate_certs: false
       loop: "{{ controller_nodes.json.results }}"
-
+    
     - name: Enable execution nodes
       ansible.controller.instance:
         hostname: "{{ item.hostname }}"
         enabled: true
         validate_certs: false
       loop: "{{ execution_nodes.json.results }}"
-
-    - name: Disable Instances
+    
+    - name: Disable Instances with job_uuid prefix
       ansible.controller.instance:
         hostname: "{{ item }}"
         enabled: false
         validate_certs: false
       loop: 
-        - "{{ controller_node }}"
-        - "{{ execution_node }}"
+        - "{{ hostvars.localhost['{{ job_uuid }}_controller_node'] }}"
+        - "{{ hostvars.localhost['{{ job_uuid }}_execution_node'] }}"

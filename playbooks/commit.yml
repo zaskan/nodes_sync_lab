@@ -3,10 +3,18 @@
   gather_facts: true
   hosts: localhost
   tasks:
+    - name: Generate a unique job UUID
+      ansible.builtin.command: "uuidgen"
+      register: uuid_output
+
+    - name: Set job_uuid
+      ansible.builtin.set_fact:
+        job_uuid: "{{ uuid_output.stdout.strip() }}"
+
     - name: Get the Timestamp
       ansible.builtin.set_fact:
         timestamp: "{{ ansible_date_time.iso8601_basic }}"
-
+    
     - name: Download Git Repository
       ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
@@ -15,13 +23,13 @@
         git_repository: "git@github.com:zaskan/test_role.git"
         git_directory: "/tmp/test_role"
         git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
-
+    
     - name: Perform a change in the code
       ansible.builtin.lineinfile:
         path: /tmp/test_role/tasks/main.yml
         regexp: '^      fact: "'
         line: '      fact: "{{ timestamp }}"'
-
+    
     - name: Push Changes
       ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
@@ -33,24 +41,24 @@
         git_email: "rafsanch@redhat.com"
         git_user: "rafsanch"
         git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
-
+    
     - name: "Project Sync"
       ansible.controller.project_update:
         project: "nodes_sync_lab"
         wait: true
         validate_certs: false
-
-    - name: Set the Timestamp
+    
+    - name: Set the Timestamp with job_uuid prefix
       ansible.builtin.set_stats:
         data:
-          timestamp: "{{ timestamp }}"
-
+          "{{ job_uuid }}_timestamp": "{{ timestamp }}"
+    
     - name: Save Job Environment
       ansible.builtin.command: 'env'
       changed_when: sync_job_id.rc == 0
       register: sync_job_id
-
-    - name: Set the Timestamp
+    
+    - name: Set the Sync Job ID with job_uuid prefix
       ansible.builtin.set_stats:
         data:
-          sync_job_id: "{{ sync_job_id }}"
+          "{{ job_uuid }}_sync_job_id": "{{ sync_job_id }}"
