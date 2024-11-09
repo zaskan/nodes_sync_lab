@@ -10,7 +10,7 @@
 
     - name: Get results
       ansible.builtin.set_fact:
-          execution_timestamp: "{{ test_role_role_output }}"
+        execution_timestamp: "{{ test_role_role_output }}"
 
     - name: Get results
       ansible.builtin.set_stats:
