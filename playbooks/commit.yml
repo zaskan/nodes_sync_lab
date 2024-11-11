@@ -44,7 +44,8 @@
         git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
 
     - name: Get current commit
-      ansible.builtin.command: "/tmp/test_role/git rev-parse HEAD"
+      ansible.builtin.command: "/usr/bin/git rev-parse HEAD"
+        chdir: /tmp/test_role/
       changed_when: commit.rc == 0
       register: commit
 
