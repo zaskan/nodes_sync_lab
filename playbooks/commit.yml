@@ -45,6 +45,7 @@
 
     - name: Get current commit
       ansible.builtin.command: "/usr/bin/git rev-parse HEAD"
+      args:
         chdir: /tmp/test_role/
       changed_when: commit.rc == 0
       register: commit
