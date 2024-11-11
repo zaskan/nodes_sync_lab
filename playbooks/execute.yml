@@ -7,3 +7,7 @@
       ansible.builtin.include_role:
         name: test_role
       register: test_role_role_output
+
+    - name: Show Output
+      ansible.builtin.debug:
+        msg: "Execution:{{ execution_timestamp }}"
