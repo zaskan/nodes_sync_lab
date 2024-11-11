@@ -1,2 +1,4 @@
 roles:
-  - src: https://github.com/zaskan/test_role.git
+  - name: test_role
+    src: https://github.com/zaskan/test_role.git
+    version: main

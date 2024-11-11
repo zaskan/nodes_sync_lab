@@ -7,13 +7,22 @@
       ansible.builtin.set_fact:
         timestamp: "{{ ansible_date_time.iso8601_basic }}"
 
-    - name: Download Git Repository
+    - name: Download Test Role Git Repository
       ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
       vars:
         git_operation: "clone"
         git_repository: "git@github.com:zaskan/test_role.git"
         git_directory: "/tmp/test_role"
+        git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
+      
+    - name: Download THIS Git Repository
+      ansible.builtin.include_role:
+        name: ansible_automation_platform.zaskan.git
+      vars:
+        git_operation: "clone"
+        git_repository: "git@github.com:zaskan/nodes_sync_lab.git"
+        git_directory: "/tmp/nodes_sync_lab"
         git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
 
     - name: Perform a change in the code
@@ -29,6 +38,29 @@
         git_operation: "push"
         git_repository: "git@github.com:zaskan/test_role.git"
         git_directory: "/tmp/test_role"
+        git_message: "{{ timestamp }}"
+        git_email: "rafsanch@redhat.com"
+        git_user: "rafsanch"
+        git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
+
+    - name: Get current commit
+      ansible.builtin.command: "/tmp/test_role/git rev-parse HEAD"
+      changed_when: commit.rc == 0
+      register: commit
+
+    - name: Update requirements file
+      ansible.builtin.lineinfile:
+        path: /tmp/nodes_sync_lab/roles/requirements.yml
+        regexp: '^    version: '
+        line: '    version: "{{ commit.stdout }}"'
+
+    - name: Push Changes
+      ansible.builtin.include_role:
+        name: ansible_automation_platform.zaskan.git
+      vars:
+        git_operation: "push"
+        git_repository: "git@github.com:zaskan/nodes_sync_lab.git"
+        git_directory: "/tmp/nodes_sync_lab"
         git_message: "{{ timestamp }}"
         git_email: "rafsanch@redhat.com"
         git_user: "rafsanch"
