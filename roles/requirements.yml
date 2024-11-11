@@ -1,4 +1,4 @@
 roles:
   - name: test_role
     src: https://github.com/zaskan/test_role.git
-    version: "6a472564d7190e5f532659c3a0d174018216611d"
+    version: "d36768014e3708970e58ef33da2a7c5ca46ee271"
