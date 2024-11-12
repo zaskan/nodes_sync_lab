@@ -68,14 +68,22 @@
         git_user: "rafsanch"
         git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
 
-    - name: "Project Sync"
+    - name: Project Sync
       ansible.controller.project_update:
         project: "nodes_sync_lab"
         wait: true
         validate_certs: false
-
-## Cleanup Job here
         
+    - name: Trigger Cleanup Job
+      ansible.builtin.uri:
+        url: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}/api/v2/system_job_templates/1/launch/"
+        user: "{{ lookup('ansible.builtin.env', 'CONTROLLER_USERNAME') }}"
+        password: "{{ lookup('ansible.builtin.env', 'CONTROLLER_PASSWORD') }}"
+        method: GET
+        force_basic_auth: true
+        status_code: 200
+        body_format: json
+        validate_certs: false
 
     - name: Set the Timestamp
       ansible.builtin.set_stats:
