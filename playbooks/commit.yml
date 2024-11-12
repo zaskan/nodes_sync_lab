@@ -81,9 +81,6 @@
         password: "{{ lookup('ansible.builtin.env', 'CONTROLLER_PASSWORD') }}"
         method: POST
         force_basic_auth: true
-        status_code: 
-          - 200
-          - 202
         body_format: json
         body: '{"extra_vars": {"days": 0}}'
         validate_certs: false
