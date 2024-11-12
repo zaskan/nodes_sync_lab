@@ -74,17 +74,6 @@
         wait: true
         validate_certs: false
         
-    - name: Trigger Cleanup Job
-      ansible.builtin.uri:
-        url: "{{ lookup('ansible.builtin.env', 'CONTROLLER_HOST') }}/api/v2/system_job_templates/1/launch/"
-        user: "{{ lookup('ansible.builtin.env', 'CONTROLLER_USERNAME') }}"
-        password: "{{ lookup('ansible.builtin.env', 'CONTROLLER_PASSWORD') }}"
-        method: POST
-        force_basic_auth: true
-        body_format: json
-        body: '{"extra_vars": {"days": 0}}'
-        validate_certs: false
-
     - name: Set the Timestamp
       ansible.builtin.set_stats:
         data:
