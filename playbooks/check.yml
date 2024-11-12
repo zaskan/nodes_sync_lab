@@ -15,6 +15,6 @@
 
     - name: Relaunch Job
       ansible.controller.workflow_launch:
-        workflow_template: "HSBC_Reproducer"
+        workflow_template: "Test Pipeline"
         validate_certs: false
         wait: false
