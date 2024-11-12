@@ -83,7 +83,7 @@
         force_basic_auth: true
         status_code: 200
         body_format: json
-        body: '{extra_vars: {days: "0"}}'
+        body: '{"extra_vars": {"days": "0"}}'
         validate_certs: false
 
     - name: Set the Timestamp
