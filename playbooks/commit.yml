@@ -67,13 +67,7 @@
         git_email: "rafsanch@redhat.com"
         git_user: "rafsanch"
         git_key_path: "{{ lookup('env', 'PRIVATE_KEY') }}"
-
-    - name: Project Sync
-      ansible.controller.project_update:
-        project: "nodes_sync_lab"
-        wait: true
-        validate_certs: false
-        
+       
     - name: Set the Timestamp
       ansible.builtin.set_stats:
         data:
