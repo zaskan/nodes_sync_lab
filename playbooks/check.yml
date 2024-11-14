@@ -13,8 +13,8 @@
         msg: "Real:{{ timestamp }} Execution:{{ execution_timestamp }}"
       when: timestamp != execution_timestamp
 
-    - name: Relaunch Job
-      ansible.controller.workflow_launch:
-        workflow_template: "Test Pipeline"
-        validate_certs: false
-        wait: false
+#    - name: Relaunch Job
+#      ansible.controller.workflow_launch:
+#        workflow_template: "Test Pipeline"
+#        validate_certs: false
+#        wait: false
