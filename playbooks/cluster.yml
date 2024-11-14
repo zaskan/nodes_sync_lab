@@ -3,17 +3,18 @@
   gather_facts: true
   hosts: localhost
   tasks:
-    - name: Extract JOB_ID value
-      ansible.builtin.set_fact:
-        job_id: "{{ sync_job_id | regex_search('JOB_ID=([0-9]+)', '\\1') }}"
+#    - name: Extract JOB_ID value
+#      ansible.builtin.set_fact:
+#        job_id: "{{ sync_job_id | regex_search('JOB_ID=([0-9]+)', '\\1') }}"
+#
+#
+#    - name: Extract Sync Job Environment Controller node
+#      ansible.builtin.set_fact:
+#        sync_data: "{{ lookup('ansible.controller.controller_api', 'jobs/{{ job_id[0] }}/') }}"
 
-    - name: Extract Sync Job Environment Controller node
-      ansible.builtin.set_fact:
-        sync_data: "{{ lookup('ansible.controller.controller_api', 'jobs/{{ job_id[0] }}/') }}"
-
-    - name: Extract controller node
-      ansible.builtin.set_fact:
-        controller_node: "{{ sync_data.controller_node }}"
+#    - name: Extract controller node
+#      ansible.builtin.set_fact:
+#        controller_node: "{{ sync_data.controller_node }}"
 
 #    - name: Extract execution node
 #      ansible.builtin.set_fact:
