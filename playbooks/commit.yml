@@ -7,6 +7,10 @@
       ansible.builtin.set_fact:
         timestamp: "{{ ansible_date_time.iso8601_basic }}"
 
+    - name: Set Timestamp Artifact
+      ansible.builtin.set_stats:
+        timestamp: "{{ timestamp }}"
+        
     - name: Download Test Role Git Repository
       ansible.builtin.include_role:
         name: ansible_automation_platform.zaskan.git
