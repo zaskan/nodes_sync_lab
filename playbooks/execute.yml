@@ -1,7 +1,7 @@
 ---
 - name: Execute Role
   gather_facts: true
-  hosts: localhost
+  hosts: all
   tasks:
     - name: Execute Role
       ansible.builtin.include_role:
